@@ -1,13 +1,21 @@
 const path = require("path");
+// minify bundle.js file plugin
 const TerserPlugin = require("terser-webpack-plugin");
+// minify .css file
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// cleaning before building
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    // [contenthash] <- for caching
+    filename: "bundle.[contenthash].js",
+    // output.path
     path: path.resolve(__dirname, "./dist"),
-    publicPath: "dist/",
+    // relational file path
+    publicPath: "",
   },
   mode: "none",
   module: {
@@ -38,7 +46,18 @@ module.exports = {
     ],
   },
   plugins: [
+    // minify bundle.js file size
     new TerserPlugin(),
-    new MiniCssExtractPlugin({ filename: "styles.css" }),
+    new MiniCssExtractPlugin({
+      // [contenthash] <- for caching
+      filename: "styles.[contenthash].css",
+    }),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        "**/*", // default
+        path.join(process.cwd(), "build/**/*"), // additional cleaning folder
+      ],
+    }),
+    new HtmlWebpackPlugin(),
   ],
 };
