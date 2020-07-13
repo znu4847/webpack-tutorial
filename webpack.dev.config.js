@@ -7,9 +7,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // plugins list : webpack.js.org/plugins/
 
 https: module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    "hello-world": "./src/hello-world.js",
+    druid: "./src/druid.js",
+  },
   output: {
-    filename: "bundle.js",
+    // [name] : spllitted bundle-file-name
+    filename: "[name].bundle.js",
     // output.path
     path: path.resolve(__dirname, "dist"),
     // relational file path
@@ -20,7 +24,7 @@ https: module.exports = {
   mode: "development",
   devServer: {
     contentBase: path.resolve(__dirname, "dist"),
-    index: "index.html",
+    index: "hello-world..html",
     port: 9000,
   },
   module: {
@@ -67,8 +71,18 @@ https: module.exports = {
     // html generating plugin
     new HtmlWebpackPlugin({
       // custumization options : https://github.com/jantimon/html-webpack-plugin
+      filename: "hello-world.html",
+      chunks: ["hello-world"],
       title: "Hello World", // handlebar.option
-      template: "src/index.hbs", // handlebar
+      template: "src/page-template.hbs", // handlebar
+      description: "some description", // handlebar.option
+    }),
+    new HtmlWebpackPlugin({
+      // custumization options : https://github.com/jantimon/html-webpack-plugin
+      filename: "druid.html",
+      chunks: ["druid"],
+      title: "Hello World", // handlebar.option
+      template: "src/page-template.hbs", // handlebar
       description: "some description", // handlebar.option
     }),
   ],

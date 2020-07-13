@@ -31,6 +31,8 @@ https: module.exports = {
     // to sharing common library, so can minify bundle.js file size
     splitChunks: {
       chunks: "all",
+      minSize: 50000,
+      automaticNameDelimiter: "_",
     },
   },
   module: {
@@ -82,7 +84,7 @@ https: module.exports = {
     new HtmlWebpackPlugin({
       // custumization options : https://github.com/jantimon/html-webpack-plugin
       filename: "hello-world.html",
-      chunks: ["hello-world", "vendors~druid~hello-world"],
+      chunks: ["hello-world", "vendors_druid_hello-world"],
       title: "Hello World", // handlebar.option
       template: "src/page-template.hbs", // handlebar
       description: "some description", // handlebar.option
@@ -90,7 +92,7 @@ https: module.exports = {
     new HtmlWebpackPlugin({
       // custumization options : https://github.com/jantimon/html-webpack-plugin
       filename: "druid.html",
-      chunks: ["druid", "vendors~druid~hello-world"],
+      chunks: ["druid", "vendors_druid_hello-world"],
       title: "Hello World", // handlebar.option
       template: "src/page-template.hbs", // handlebar
       description: "some description", // handlebar.option
