@@ -12,10 +12,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // plugins list : webpack.js.org/plugins/
 
 https: module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    "hello-world": "./src/hello-world.js",
+    druid: "./src/druid.js",
+  },
   output: {
-    // [contenthash] <- for caching
-    filename: "bundle.[contenthash].js",
+    // [contenthash] <- for caching, [name] multiple bundle file
+    filename: "[name].[contenthash].js",
     // output.path
     path: path.resolve(__dirname, "./dist"),
     // relational file path
@@ -24,6 +27,12 @@ https: module.exports = {
   // mode : [none, development, production]
   // ref : https://webpack.js.org/configuration/mode/
   mode: "production",
+  optimization: {
+    // to sharing common library, so can minify bundle.js file size
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   module: {
     rules: [
       {
@@ -61,7 +70,7 @@ https: module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       // [contenthash] <- for caching
-      filename: "styles.[contenthash].css",
+      filename: "[name].[contenthash].css",
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
@@ -72,8 +81,18 @@ https: module.exports = {
     // html generating plugin
     new HtmlWebpackPlugin({
       // custumization options : https://github.com/jantimon/html-webpack-plugin
+      filename: "hello-world.html",
+      chunks: ["hello-world", "vendors~druid~hello-world"],
       title: "Hello World", // handlebar.option
-      template: "src/index.hbs", // handlebar
+      template: "src/page-template.hbs", // handlebar
+      description: "some description", // handlebar.option
+    }),
+    new HtmlWebpackPlugin({
+      // custumization options : https://github.com/jantimon/html-webpack-plugin
+      filename: "druid.html",
+      chunks: ["druid", "vendors~druid~hello-world"],
+      title: "Hello World", // handlebar.option
+      template: "src/page-template.hbs", // handlebar
       description: "some description", // handlebar.option
     }),
   ],
