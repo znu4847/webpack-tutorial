@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 // plugins list : webpack.js.org/plugins/
 
-https: module.exports = {
+module.exports = {
   entry: {
     "hello-world": "./src/hello-world.js",
     druid: "./src/druid.js",

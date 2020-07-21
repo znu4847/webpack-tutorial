@@ -8,6 +8,7 @@ class DruidImage {
     img.alt = "druid";
     img.classList.add("kiwi-image");
 
+    console.log("--- druid");
     const bodyDomElement = document.querySelector("body");
     bodyDomElement.appendChild(img);
   }
